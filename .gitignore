@@ -3,5 +3,4 @@ out
 .idea
 *.docx
 target
-pom.xml
 *.iml
