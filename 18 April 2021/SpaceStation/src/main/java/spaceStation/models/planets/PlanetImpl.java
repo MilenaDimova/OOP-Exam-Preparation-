@@ -4,7 +4,6 @@ import spaceStation.common.ExceptionMessages;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class PlanetImpl implements Planet{
     private String name;
@@ -29,7 +28,7 @@ public class PlanetImpl implements Planet{
 
     @Override
     public Collection<String> getItems() {
-        return Collections.unmodifiableCollection(items);
+        return this.items;
     }
 
     public void setItems(Collection<String> items) {
