@@ -6,11 +6,17 @@ import spaceStation.models.astronauts.Astronaut;
 import spaceStation.models.astronauts.Biologist;
 import spaceStation.models.astronauts.Geodesist;
 import spaceStation.models.astronauts.Meteorologist;
+import spaceStation.models.mission.Mission;
+import spaceStation.models.mission.MissionImpl;
+import spaceStation.models.planets.Planet;
 import spaceStation.models.planets.PlanetImpl;
 import spaceStation.repositories.AstronautRepository;
 import spaceStation.repositories.PlanetRepository;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ControllerImpl implements Controller {
     private AstronautRepository astronautRepository;
@@ -68,11 +74,27 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String explorePlanet(String planetName) {
-        return null;
+        Collection<Astronaut> astronautsWithHigherOxygen = this.astronautRepository.getModels().stream()
+                .filter(a -> a.getOxygen() > 60)
+                .collect(Collectors.toList());
+
+        Planet planet = this.planetRepository.findByName(planetName);
+
+        if (astronautsWithHigherOxygen.isEmpty()) {
+            throw new IllegalArgumentException(ExceptionMessages.PLANET_ASTRONAUTS_DOES_NOT_EXISTS);
+        }
+
+        Mission mission = new MissionImpl();
+        mission.explore(planet, astronautsWithHigherOxygen);
+
+        return String.format(ConstantMessages.PLANET_EXPLORED,
+                planetName, astronautsWithHigherOxygen.stream().filter(a -> !a.canBreath()).count());
     }
 
     @Override
     public String report() {
+        StringBuilder builder = new StringBuilder();
+
         return null;
     }
 }
