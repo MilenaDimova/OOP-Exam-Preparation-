@@ -12,21 +12,23 @@ import spaceStation.models.mission.MissionImpl;
 import spaceStation.models.planets.Planet;
 import spaceStation.models.planets.PlanetImpl;
 import spaceStation.repositories.AstronautRepository;
+import spaceStation.repositories.ExploredPlanetsRepository;
 import spaceStation.repositories.PlanetRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ControllerImpl implements Controller {
     private AstronautRepository astronautRepository;
     private PlanetRepository planetRepository;
+    private ExploredPlanetsRepository exploredPlanetsRepository;
 
     public ControllerImpl() {
         this.astronautRepository = new AstronautRepository();
         this.planetRepository = new PlanetRepository();
+        this.exploredPlanetsRepository = new ExploredPlanetsRepository();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class ControllerImpl implements Controller {
     @Override
     public String addPlanet(String planetName, String... items) {
         PlanetImpl planet = new PlanetImpl(planetName);
-        planet.setItems(Arrays.asList(items));
+        planet.getItems().addAll(Arrays.asList(items));
         this.planetRepository.add(planet);
 
         return String.format(ConstantMessages.PLANET_ADDED, planetName);
@@ -63,12 +65,6 @@ public class ControllerImpl implements Controller {
     @Override
     public String retireAstronaut(String astronautName) {
         Astronaut astronaut = this.astronautRepository.findByName(astronautName);
-
-        if (astronaut == null) {
-            throw new IllegalArgumentException(
-                    String.format(ExceptionMessages.ASTRONAUT_DOES_NOT_EXIST, astronautName));
-        }
-
         this.astronautRepository.remove(astronaut);
 
         return String.format(ConstantMessages.ASTRONAUT_RETIRED, astronautName);
@@ -88,6 +84,7 @@ public class ControllerImpl implements Controller {
 
         Mission mission = new MissionImpl();
         mission.explore(planet, astronautsWithHigherOxygen);
+        this.exploredPlanetsRepository.add(planet);
 
         return String.format(ConstantMessages.PLANET_EXPLORED,
                 planetName, astronautsWithHigherOxygen.stream().filter(a -> !a.canBreath()).count());
@@ -97,7 +94,7 @@ public class ControllerImpl implements Controller {
     public String report() {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format(ConstantMessages.REPORT_PLANET_EXPLORED,
-                this.planetRepository.getModels().stream().filter(p -> p.getItems().isEmpty()).count()));
+                this.exploredPlanetsRepository.getModels().stream().count()));
         builder.append(System.lineSeparator());
         builder.append(ConstantMessages.REPORT_ASTRONAUT_INFO);
         builder.append(System.lineSeparator());
