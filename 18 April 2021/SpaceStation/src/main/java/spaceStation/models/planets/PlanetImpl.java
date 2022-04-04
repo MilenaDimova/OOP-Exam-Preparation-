@@ -14,12 +14,7 @@ public class PlanetImpl implements Planet{
         this.items = new ArrayList<>();
     }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
+    private void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new NullPointerException(ExceptionMessages.PLANET_NAME_NULL_OR_EMPTY);
         }
@@ -27,11 +22,12 @@ public class PlanetImpl implements Planet{
     }
 
     @Override
-    public Collection<String> getItems() {
-        return this.items;
+    public String getName() {
+        return this.name;
     }
 
-    public void setItems(Collection<String> items) {
-        this.items = items;
+    @Override
+    public Collection<String> getItems() {
+        return this.items;
     }
 }
