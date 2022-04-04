@@ -6,6 +6,7 @@ import spaceStation.models.astronauts.Astronaut;
 import spaceStation.models.astronauts.Biologist;
 import spaceStation.models.astronauts.Geodesist;
 import spaceStation.models.astronauts.Meteorologist;
+import spaceStation.models.bags.Bag;
 import spaceStation.models.mission.Mission;
 import spaceStation.models.mission.MissionImpl;
 import spaceStation.models.planets.Planet;
@@ -15,6 +16,7 @@ import spaceStation.repositories.PlanetRepository;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +96,26 @@ public class ControllerImpl implements Controller {
     @Override
     public String report() {
         StringBuilder builder = new StringBuilder();
+        builder.append(String.format(ConstantMessages.REPORT_PLANET_EXPLORED,
+                this.planetRepository.getModels().stream().filter(p -> p.getItems().isEmpty()).count()));
+        builder.append(System.lineSeparator());
+        builder.append(ConstantMessages.REPORT_ASTRONAUT_INFO);
+        builder.append(System.lineSeparator());
+        for (Astronaut astronaut : this.astronautRepository.getModels()) {
+            builder.append(String.format(ConstantMessages.REPORT_ASTRONAUT_NAME, astronaut.getName()));
+            builder.append(System.lineSeparator());
+            builder.append(String.format(ConstantMessages.REPORT_ASTRONAUT_OXYGEN, astronaut.getOxygen()));
+            builder.append(System.lineSeparator());
+            Bag bag = astronaut.getBag();
+            if (bag.getItems().isEmpty()) {
+                builder.append(String.format(ConstantMessages.REPORT_ASTRONAUT_BAG_ITEMS, "none"));
+            } else {
+                builder.append(String.format(ConstantMessages.REPORT_ASTRONAUT_BAG_ITEMS,
+                        String.join(", ", bag.getItems())));
+            }
+            builder.append(System.lineSeparator());
+        }
 
-        return null;
+        return builder.toString().trim();
     }
 }
