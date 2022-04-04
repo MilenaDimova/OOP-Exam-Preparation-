@@ -2,7 +2,6 @@ package spaceStation.models.bags;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class Backpack implements Bag {
     private Collection<String> items;
@@ -13,6 +12,6 @@ public class Backpack implements Bag {
 
     @Override
     public Collection<String> getItems() {
-        return Collections.unmodifiableCollection(this.items);
+        return this.items;
     }
 }
