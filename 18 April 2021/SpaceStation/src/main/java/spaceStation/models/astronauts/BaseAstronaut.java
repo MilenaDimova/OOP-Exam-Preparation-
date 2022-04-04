@@ -40,7 +40,7 @@ public abstract class BaseAstronaut implements Astronaut{
 
     @Override
     public boolean canBreath() {
-        return false;
+        return this.oxygen > 0;
     }
 
     @Override
@@ -50,6 +50,10 @@ public abstract class BaseAstronaut implements Astronaut{
 
     @Override
     public void breath() {
-        this.setOxygen(this.getOxygen() - DECREASE_OXYGEN);
+        if (this.getOxygen() - DECREASE_OXYGEN < 0) {
+            this.setOxygen(0);
+        } else {
+            this.setOxygen(this.getOxygen() - DECREASE_OXYGEN);
+        }
     }
 }

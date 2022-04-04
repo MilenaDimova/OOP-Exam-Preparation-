@@ -10,6 +10,10 @@ public class Biologist extends BaseAstronaut{
 
     @Override
     public void breath() {
-        this.setOxygen(this.getOxygen() - DECREASE_OXYGEN);
+        if (this.getOxygen() - DECREASE_OXYGEN < 0) {
+            this.setOxygen(0);
+        } else {
+            this.setOxygen(this.getOxygen() - DECREASE_OXYGEN);
+        }
     }
 }
