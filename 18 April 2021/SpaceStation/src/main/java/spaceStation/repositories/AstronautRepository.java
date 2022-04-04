@@ -1,12 +1,18 @@
 package spaceStation.repositories;
 
+import spaceStation.common.ExceptionMessages;
 import spaceStation.models.astronauts.Astronaut;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
 public class AstronautRepository implements Repository<Astronaut> {
     private Collection<Astronaut> astronauts;
+
+    public AstronautRepository() {
+        this.astronauts = new ArrayList<>();
+    }
 
     @Override
     public Collection<Astronaut> getModels() {
@@ -25,6 +31,14 @@ public class AstronautRepository implements Repository<Astronaut> {
 
     @Override
     public Astronaut findByName(String name) {
-        return this.astronauts.stream().filter(a -> a.getName().equals(name)).findFirst().get();
+        Astronaut astronaut = this.astronauts.stream().filter(a -> a.getName().equals(name))
+                .findFirst()
+                .orElse(null);
+        if (astronaut == null) {
+            throw new IllegalArgumentException(
+                    String.format(ExceptionMessages.ASTRONAUT_DOES_NOT_EXIST, name));
+        }
+
+        return astronaut;
     }
 }
