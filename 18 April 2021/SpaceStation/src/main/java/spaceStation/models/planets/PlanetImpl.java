@@ -31,4 +31,8 @@ public class PlanetImpl implements Planet{
     public Collection<String> getItems() {
         return Collections.unmodifiableCollection(items);
     }
+
+    public void setItems(Collection<String> items) {
+        this.items = items;
+    }
 }
