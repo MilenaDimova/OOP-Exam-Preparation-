@@ -37,6 +37,9 @@ public abstract class BaseFish implements Fish{
         this.price = price;
     }
 
+    protected void setSize(int size) {
+        this.size = size;
+    }
 
     @Override
     public int getSize() {
