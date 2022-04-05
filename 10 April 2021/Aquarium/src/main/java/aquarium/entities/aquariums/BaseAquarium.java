@@ -5,6 +5,7 @@ import aquarium.common.ExceptionMessages;
 import aquarium.entities.decorations.Decoration;
 import aquarium.entities.fish.Fish;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -18,6 +19,8 @@ public abstract class BaseAquarium implements Aquarium{
     protected BaseAquarium(String name, int capacity) {
         this.setName(name);
         this.capacity = capacity;
+        this.decorations = new ArrayList<>();
+        this.fish = new ArrayList<>();
     }
 
     public void setName(String name) {
@@ -72,7 +75,7 @@ public abstract class BaseAquarium implements Aquarium{
     @Override
     public String getInfo() {
         StringBuilder output = new StringBuilder();
-        output.append(String.format("%s (%s)", this.getName(), this.getClass().getSimpleName()));
+        output.append(String.format("%s (%s):", this.getName(), this.getClass().getSimpleName()));
         output.append(System.lineSeparator());
         output.append("Fish: ");
         if (this.fish.isEmpty()) {
