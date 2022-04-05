@@ -39,6 +39,8 @@ public class ControllerImpl implements Controller{
                 throw new NullPointerException(ExceptionMessages.INVALID_AQUARIUM_TYPE);
         }
 
+        this.aquariums.add(aquarium);
+
         return String.format(ConstantMessages.SUCCESSFULLY_ADDED_AQUARIUM_TYPE, aquariumType);
     }
 
@@ -55,6 +57,7 @@ public class ControllerImpl implements Controller{
             default:
                 throw new IllegalArgumentException(ExceptionMessages.INVALID_DECORATION_TYPE);
         }
+        this.decorations.add(decoration);
 
         return String.format(ConstantMessages.SUCCESSFULLY_ADDED_DECORATION_TYPE, type);
     }
@@ -93,8 +96,10 @@ public class ControllerImpl implements Controller{
 
         Aquarium aquarium = findAquariumByName(aquariumName);
 
-        String resultMessage = "";
-        if (!aquarium.getClass().getSimpleName().contains(fishType.replace("Fish", ""))) {
+        String resultMessage = String.format(ConstantMessages.SUCCESSFULLY_ADDED_FISH_IN_AQUARIUM,
+                fishType, aquariumName);
+
+        if (!aquarium.getClass().getSimpleName().startsWith(fishType.replace("Fish", ""))) {
             resultMessage = ConstantMessages.WATER_NOT_SUITABLE;
         } else {
             try {
@@ -103,8 +108,6 @@ public class ControllerImpl implements Controller{
                 resultMessage = exception.getMessage();
             }
         }
-        resultMessage = String.format(ConstantMessages.SUCCESSFULLY_ADDED_FISH_IN_AQUARIUM,
-                fishType, aquariumName);
 
         return resultMessage;
     }
