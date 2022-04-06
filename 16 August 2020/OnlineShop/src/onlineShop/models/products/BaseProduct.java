@@ -73,7 +73,7 @@ public abstract class BaseProduct implements Product{
         return this.overallPerformance;
     }
 
-    private void setOverallPerformance(double overallPerformance) {
+    protected void setOverallPerformance(double overallPerformance) {
         if (overallPerformance <= 0) {
             throw new IllegalArgumentException(INVALID_OVERALL_PERFORMANCE);
         }
