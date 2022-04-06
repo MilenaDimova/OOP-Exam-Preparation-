@@ -11,17 +11,16 @@ public class GangNeighbourhood implements Neighbourhood {
     public void action(Player mainPlayer, Collection<Player> civilPlayers) {
         for (Player civilPlayer : civilPlayers) {
             playerShoots(civilPlayer, mainPlayer);
-            if (!civilPlayer.isAlive()) {
-                continue;
+            if (civilPlayer.isAlive()) {
+                break;
             }
         }
 
-        if (civilPlayers.stream().anyMatch(c -> c.isAlive())) {
-            for (Player civilPlayer : civilPlayers) {
-                playerShoots(mainPlayer, civilPlayer);
-                if (!mainPlayer.isAlive()) {
-                    break;
-                }
+        for (Player civilPlayer : civilPlayers.stream().
+                filter(Player::isAlive).collect(Collectors.toList())) {
+            playerShoots(mainPlayer, civilPlayer);
+            if (!mainPlayer.isAlive()) {
+                break;
             }
         }
     }
