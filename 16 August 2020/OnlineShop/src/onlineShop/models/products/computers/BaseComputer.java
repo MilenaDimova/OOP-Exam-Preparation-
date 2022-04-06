@@ -6,6 +6,7 @@ import onlineShop.models.products.components.Component;
 import onlineShop.models.products.peripherals.Peripheral;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static onlineShop.common.constants.ExceptionMessages.*;
@@ -22,12 +23,12 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
 
     @Override
     public List<Component> getComponents() {
-        return this.components;
+        return Collections.unmodifiableList(this.components);
     }
 
     @Override
     public List<Peripheral> getPeripherals() {
-        return this.peripherals;
+        return Collections.unmodifiableList(this.peripherals);
     }
 
     @Override
