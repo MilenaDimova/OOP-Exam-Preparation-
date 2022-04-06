@@ -60,6 +60,7 @@ public abstract class BaseGun implements Gun {
             this.setTotalBullets(this.getTotalBullets() - bulletsPerBarrel);
             this.setBulletsPerBarrel(bulletsPerBarrel);
         }
+
         return this.getBulletsPerBarrel();
     };
 }

@@ -18,10 +18,4 @@ public class Rifle extends BaseGun{
         }
         return DEFAULT_BULLETS_PER_SHOT;
     }
-
-    @Override
-    public int reload(int bulletsPerBarrel) {
-        super.reload(DEFAULT_BULLETS_PER_BARREL);
-        return getBulletsPerBarrel();
-    }
 }
