@@ -1,15 +1,14 @@
 package onlineShop.models.products.computers;
 
-import static onlineShop.common.constants.ExceptionMessages.*;
-
 import onlineShop.common.constants.OutputMessages;
 import onlineShop.models.products.BaseProduct;
-import onlineShop.models.products.Product;
 import onlineShop.models.products.components.Component;
 import onlineShop.models.products.peripherals.Peripheral;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static onlineShop.common.constants.ExceptionMessages.*;
 
 public abstract class BaseComputer extends BaseProduct implements Computer{
     private List<Component> components;
@@ -80,20 +79,35 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
     }
 
     @Override
+    public double getPrice() {
+        return this.getPrice() + this.components.stream().mapToDouble(Component::getPrice).sum()
+                + this.peripherals.stream().mapToDouble(Peripheral::getPrice).sum();
+    }
+
+    @Override
+    public double getOverallPerformance() {
+        return  super.getOverallPerformance() +
+                this.components.stream()
+                        .mapToDouble(Component::getOverallPerformance)
+                        .average()
+                        .orElse(0);
+    }
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(super.toString());
         builder.append(System.lineSeparator());
-        builder.append(String.format(OutputMessages.COMPUTER_COMPONENTS_TO_STRING, this.components.size()));
+        builder.append(" ").append(String.format(OutputMessages.COMPUTER_COMPONENTS_TO_STRING, this.components.size()));
         builder.append(System.lineSeparator());
         for (Component component : this.components) {
-            builder.append(component).append(System.lineSeparator());
+            builder.append("  ").append(component).append(System.lineSeparator());
         }
         double avgOverallPerformance = this.peripherals.stream()
-                .mapToDouble(Product::getOverallPerformance).average().orElse(0);
-        builder.append(String.format(OutputMessages.COMPUTER_PERIPHERALS_TO_STRING, this.peripherals.size(),
+                .mapToDouble(Peripheral::getOverallPerformance).average().orElse(0);
+        builder.append(" ").append(String.format(OutputMessages.COMPUTER_PERIPHERALS_TO_STRING, this.peripherals.size(),
                 avgOverallPerformance)).append(System.lineSeparator());
         for (Peripheral peripheral : this.peripherals) {
-            builder.append(peripheral).append(System.lineSeparator());
+            builder.append("  ").append(peripheral).append(System.lineSeparator());
         }
 
         return builder.toString().trim();
