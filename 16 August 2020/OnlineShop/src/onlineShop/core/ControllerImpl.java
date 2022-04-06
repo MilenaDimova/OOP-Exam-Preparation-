@@ -75,7 +75,18 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String removePeripheral(String peripheralType, int computerId) {
-        return null;
+        Computer computer = getComputerById(computerId);
+
+        Peripheral peripheral = computer.getPeripherals().stream()
+                .filter(p -> p.getClass().getSimpleName().equals(peripheralType))
+                .findFirst()
+                .orElse(null);
+
+        if (peripheral != null) {
+            computer.getComponents().remove(peripheral);
+        }
+
+        return String.format(REMOVED_PERIPHERAL, peripheralType, peripheral.getId());
     }
 
     @Override
