@@ -7,6 +7,8 @@ import onlineShop.models.products.computers.Laptop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import static onlineShop.common.constants.ExceptionMessages.*;
 import static onlineShop.common.constants.OutputMessages.*;
 
@@ -31,17 +33,17 @@ public class ControllerImpl implements Controller {
                 throw new IllegalArgumentException(INVALID_COMPUTER_TYPE);
         }
 
-        if (this.computers.stream().anyMatch(c -> c.getId() == id)) {
-            throw new IllegalArgumentException(EXISTING_COMPUTER_ID);
-        }
+        getComputerById(id);
         this.computers.add(computer);
 
         return String.format(ADDED_COMPUTER, id);
     }
 
+
     @Override
     public String addPeripheral(int computerId, int id, String peripheralType, String manufacturer, String model,
                                 double price, double overallPerformance, String connectionType) {
+
         return null;
     }
 
@@ -73,5 +75,14 @@ public class ControllerImpl implements Controller {
     @Override
     public String getComputerData(int id) {
         return null;
+    }
+
+    private Computer getComputerById(int id) {
+        Optional<Computer> computer = this.computers.stream().filter(c -> c.getId() == id).findAny();
+        if (computer.isEmpty()) {
+            throw new IllegalArgumentException(EXISTING_COMPUTER_ID);
+        }
+
+        return computer.get();
     }
 }
