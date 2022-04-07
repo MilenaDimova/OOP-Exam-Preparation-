@@ -61,7 +61,7 @@ public abstract class BaseProduct implements Product{
         return this.price;
     }
 
-    private void setPrice(double price) {
+    protected void setPrice(double price) {
         if (price <= 0) {
             throw new IllegalArgumentException(INVALID_PRICE);
         }
