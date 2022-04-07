@@ -1,5 +1,6 @@
 package onlineShop.models.products.peripherals;
 
+import onlineShop.common.constants.OutputMessages;
 import onlineShop.models.products.BaseProduct;
 
 public abstract class BasePeripheral extends BaseProduct implements Peripheral{
@@ -18,7 +19,7 @@ public abstract class BasePeripheral extends BaseProduct implements Peripheral{
 
     @Override
     public String toString() {
-        return String.format("%s Connection Type: %s", super.toString(), this.connectionType);
+        return super.toString() + String.format(OutputMessages.PERIPHERAL_TO_STRING, this.connectionType);
     }
 
 
