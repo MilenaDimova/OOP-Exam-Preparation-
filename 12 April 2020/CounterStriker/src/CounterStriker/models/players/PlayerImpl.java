@@ -56,7 +56,7 @@ public abstract class PlayerImpl implements Player{
 
     @Override
     public Gun getGun() {
-        return null;
+        return this.gun;
     }
 
     private void setGun(Gun gun) {
