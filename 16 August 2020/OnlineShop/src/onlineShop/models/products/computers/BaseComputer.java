@@ -83,7 +83,7 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
 
     @Override
     public double getPrice() {
-        return this.getPrice() + this.components.stream().mapToDouble(Component::getPrice).sum()
+        return super.getPrice() + this.components.stream().mapToDouble(Component::getPrice).sum()
                 + this.peripherals.stream().mapToDouble(Peripheral::getPrice).sum();
     }
 
@@ -98,7 +98,11 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(super.toString());
+        StringBuilder builder = new StringBuilder(
+                String.format("Overall Performance: %.2f. Price: %.2f ",
+                        this.getOverallPerformance(),
+                        this.getPrice()));
+        builder.append(super.toString().substring(super.toString().indexOf("-")));
         builder.append(System.lineSeparator());
         builder.append(" ").append(String.format(OutputMessages.COMPUTER_COMPONENTS_TO_STRING, this.components.size()));
         builder.append(System.lineSeparator());
