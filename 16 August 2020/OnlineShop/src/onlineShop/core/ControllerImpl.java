@@ -41,7 +41,6 @@ public class ControllerImpl implements Controller {
         return String.format(ADDED_COMPUTER, id);
     }
 
-
     @Override
     public String addPeripheral(int computerId, int id, String peripheralType, String manufacturer, String model,
                                 double price, double overallPerformance, String connectionType) {
@@ -148,7 +147,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public String getComputerData(int id) {
-        return null;
+        return getComputerById(id).toString();
     }
 
     private Computer getComputerById(int id) {
