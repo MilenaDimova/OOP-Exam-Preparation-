@@ -159,7 +159,7 @@ public class ControllerImpl implements Controller {
     private void checkComputerById(int id) {
         Optional<Computer> computer = this.computers.stream().filter(c -> c.getId() == id).findAny();
         if (computer.isPresent()) {
-            throw new IllegalArgumentException(NOT_EXISTING_COMPUTER_ID);
+            throw new IllegalArgumentException(EXISTING_COMPUTER_ID);
         }
     }
 }
