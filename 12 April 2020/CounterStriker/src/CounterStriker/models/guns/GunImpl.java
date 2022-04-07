@@ -28,7 +28,7 @@ public abstract class GunImpl implements Gun{
         return this.bulletsCount;
     }
 
-    public void setBulletsCount(int bulletsCount) {
+    protected void setBulletsCount(int bulletsCount) {
         if (bulletsCount < 0) {
             throw new IllegalArgumentException(INVALID_GUN_BULLETS_COUNT);
         }
