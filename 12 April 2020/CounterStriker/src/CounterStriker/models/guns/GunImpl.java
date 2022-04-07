@@ -16,7 +16,7 @@ public abstract class GunImpl implements Gun{
         return this.name;
     }
 
-    protected void setName(String name) {
+    private void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
             throw new NullPointerException(INVALID_GUN_NAME);
         }
