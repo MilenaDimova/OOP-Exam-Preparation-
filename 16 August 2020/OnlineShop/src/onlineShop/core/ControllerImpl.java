@@ -10,6 +10,7 @@ import onlineShop.models.products.peripherals.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import static onlineShop.common.constants.ExceptionMessages.*;
 import static onlineShop.common.constants.OutputMessages.*;
@@ -35,7 +36,7 @@ public class ControllerImpl implements Controller {
                 throw new IllegalArgumentException(INVALID_COMPUTER_TYPE);
         }
 
-        getComputerById(id);
+        checkComputerById(id);
         this.computers.add(computer);
 
         return String.format(ADDED_COMPUTER, id);
@@ -152,6 +153,13 @@ public class ControllerImpl implements Controller {
 
     private Computer getComputerById(int id) {
         return this.computers.stream().filter(c -> c.getId() == id).findAny()
-                .orElseThrow(() -> new IllegalArgumentException(EXISTING_COMPUTER_ID));
+                .orElseThrow(() -> new IllegalArgumentException(NOT_EXISTING_COMPUTER_ID));
+    }
+
+    private void checkComputerById(int id) {
+        Optional<Computer> computer = this.computers.stream().filter(c -> c.getId() == id).findAny();
+        if (computer.isPresent()) {
+            throw new IllegalArgumentException(NOT_EXISTING_COMPUTER_ID);
+        }
     }
 }
