@@ -51,6 +51,7 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
             throw new IllegalArgumentException(String.format(NOT_EXISTING_COMPONENT,
                     componentType, this.getClass().getSimpleName(), this.getId()));
         }
+        this.components.remove(componentToRemove);
 
         return componentToRemove;
     }
@@ -75,6 +76,7 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
             throw new IllegalArgumentException(String.format(NOT_EXISTING_PERIPHERAL,
                     peripheralType, this.getClass().getSimpleName(), this.getId()));
         }
+        this.peripherals.remove(peripheralToRemove);
 
         return peripheralToRemove;
     }
