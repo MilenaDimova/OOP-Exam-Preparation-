@@ -1,5 +1,6 @@
 package onlineShop.models.products.components;
 
+import onlineShop.common.constants.OutputMessages;
 import onlineShop.models.products.BaseProduct;
 
 public abstract class BaseComponent extends BaseProduct implements Component{
@@ -13,7 +14,7 @@ public abstract class BaseComponent extends BaseProduct implements Component{
 
     @Override
     public String toString() {
-        return String.format("%s Generation: %d", super.toString(), this.generation);
+        return  super.toString() + String.format(OutputMessages.COMPONENT_TO_STRING, this.generation);
     }
 
     @Override
