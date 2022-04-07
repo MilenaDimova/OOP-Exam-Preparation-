@@ -9,6 +9,6 @@ public class CentralProcessingUnit extends BaseComponent {
 
     @Override
     public void setOverallPerformance(double overallPerformance) {
-        super.setOverallPerformance(this.getOverallPerformance() * DEFAULT_UNIT_MULTIPLIER);
+        super.setOverallPerformance(overallPerformance * DEFAULT_UNIT_MULTIPLIER);
     }
 }
