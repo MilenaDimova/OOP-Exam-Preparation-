@@ -99,7 +99,7 @@ public abstract class BaseComputer extends BaseProduct implements Computer{
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(
-                String.format("Overall Performance: %.2f. Price: %.2f ",
+                String.format(OutputMessages.PRODUCT_TO_STRING.substring(0, OutputMessages.PRODUCT_TO_STRING.indexOf("-")),
                         this.getOverallPerformance(),
                         this.getPrice()));
         builder.append(super.toString().substring(super.toString().indexOf("-")));
