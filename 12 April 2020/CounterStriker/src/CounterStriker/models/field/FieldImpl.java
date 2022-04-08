@@ -21,18 +21,21 @@ public class FieldImpl implements Field{
                 .filter(p -> p.getClass().getSimpleName().equals("CounterTerrorist"))
                 .collect(Collectors.toList());
 
-        while (terrorists.stream().allMatch(Player::isAlive) || counterTerrorists.stream().allMatch(Player::isAlive)) {
-            for (Player terrorist : terrorists) {
-                for (Player counterTerrorist : counterTerrorists) {
-                    terrorist.getGun().fire();
+        while (terrorists.stream().anyMatch(Player::isAlive) &&
+                counterTerrorists.stream().anyMatch(Player::isAlive)) {
+            for (Player terrorist :
+                    terrorists.stream().filter(Player::isAlive).collect(Collectors.toList())) {
+                for (Player counterTerrorist :
+                        counterTerrorists.stream().filter(Player::isAlive).collect(Collectors.toList())) {
                     int damage = terrorist.getGun().fire();
                     counterTerrorist.takeDamage(damage);
                 }
             }
 
-            for (Player counterTerrorist : counterTerrorists) {
-                for (Player terrorist : terrorists) {
-                    counterTerrorist.getGun().fire();
+            for (Player counterTerrorist :
+                    counterTerrorists.stream().filter(Player::isAlive).collect(Collectors.toList())) {
+                for (Player terrorist :
+                        terrorists.stream().filter(Player::isAlive).collect(Collectors.toList())) {
                     int damage = counterTerrorist.getGun().fire();
                     terrorist.takeDamage(damage);
                 }
