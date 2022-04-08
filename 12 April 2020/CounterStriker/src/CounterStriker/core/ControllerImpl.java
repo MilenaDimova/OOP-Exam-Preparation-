@@ -1,6 +1,7 @@
 package CounterStriker.core;
 
 import CounterStriker.models.field.Field;
+import CounterStriker.models.field.FieldImpl;
 import CounterStriker.models.guns.Gun;
 import CounterStriker.models.guns.Pistol;
 import CounterStriker.models.guns.Rifle;
@@ -10,8 +11,12 @@ import CounterStriker.models.players.Terrorist;
 import CounterStriker.repositories.GunRepository;
 import CounterStriker.repositories.PlayerRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static CounterStriker.common.ExceptionMessages.*;
-import static CounterStriker.common.OutputMessages.*;
+import static CounterStriker.common.OutputMessages.SUCCESSFULLY_ADDED_GUN;
+import static CounterStriker.common.OutputMessages.SUCCESSFULLY_ADDED_PLAYER;
 
 public class ControllerImpl implements Controller{
     private GunRepository guns;
@@ -21,6 +26,7 @@ public class ControllerImpl implements Controller{
     public ControllerImpl() {
         this.guns = new GunRepository();
         this.players = new PlayerRepository();
+        this.field = new FieldImpl();
     }
 
     @Override
@@ -65,11 +71,26 @@ public class ControllerImpl implements Controller{
 
     @Override
     public String startGame() {
-        return null;
+        return this.field.start(players.getModels());
     }
 
     @Override
     public String report() {
-        return null;
+        StringBuilder builder = new StringBuilder();
+        List<Player> sortedPlayers = this.players.getModels().stream()
+                .sorted((p1, p2) -> {
+                        int result = 0;
+                        result = p1.getClass().getSimpleName().compareTo(p2.getClass().getSimpleName());
+                        if (result == 0) { result = Integer.compare(p2.getHealth(), p1.getHealth()); }
+                        if (result == 0 ) { result = p1.getUsername().compareTo(p2.getUsername()); }
+                        return result;
+                }).collect(Collectors.toList());
+
+        for (Player player : sortedPlayers) {
+            builder.append(player.toString());
+            builder.append(System.lineSeparator());
+        }
+
+        return builder.toString().trim();
     }
 }
